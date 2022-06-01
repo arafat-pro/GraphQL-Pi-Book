@@ -97,6 +97,9 @@ namespace Pi_Books
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pi_Books", Version = "v1" });
             });
+
+            //Health Checks
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,6 +110,11 @@ namespace Pi_Books
                 appBuilder.UseDeveloperExceptionPage();
                 appBuilder.UseSwagger();
                 appBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pi_Books v1"));
+
+                //Health Checks
+                appBuilder.UseHealthChecks("/healthcheck");
+                //original code for .net v 6 (where there is only program file and no startup file)
+                //appBuilder.MapHealthChecks("/healthcheck");
             }
 
             appBuilder.UseHttpsRedirection();
