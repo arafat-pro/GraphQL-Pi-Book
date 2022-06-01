@@ -23,10 +23,13 @@ namespace Pi_Books
     public class Startup
     {
         public string ConnectionString { get; set; }
+        public string HealthCheckConnectionString { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
+            HealthCheckConnectionString = Configuration.GetConnectionString("HealthCheckConnectionString");
         }
 
         public IConfiguration Configuration { get; }
@@ -92,14 +95,15 @@ namespace Pi_Books
                 options.TokenValidationParameters = tokenValidationparemeters;
             });
 
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pi_Books", Version = "v1" });
             });
 
             //Health Checks
-            services.AddHealthChecks();
+            var appBuilder = WebApplication.CreateBuilder();
+            services.AddHealthChecks()
+                .AddSqlServer(appBuilder.Configuration.GetConnectionString("HealthCheckConnectionString"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
