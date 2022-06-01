@@ -1,11 +1,12 @@
 using System;
 using System.Text;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -104,6 +105,7 @@ namespace Pi_Books
             var appBuilder = WebApplication.CreateBuilder();
             services.AddHealthChecks()
                 .AddSqlServer(appBuilder.Configuration.GetConnectionString("HealthCheckConnectionString"));
+            services.AddHealthChecksUI().AddInMemoryStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,9 +118,13 @@ namespace Pi_Books
                 appBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pi_Books v1"));
 
                 //Health Checks
-                appBuilder.UseHealthChecks("/healthcheck");
                 //original code for .net v 6 (where there is only program file and no startup file)
                 //appBuilder.MapHealthChecks("/healthcheck");
+                appBuilder.UseHealthChecks("/healthcheck", new HealthCheckOptions
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                appBuilder.UseHealthChecksUI();
             }
 
             appBuilder.UseHttpsRedirection();
@@ -132,7 +138,7 @@ namespace Pi_Books
             //Exception Handling by Middle-ware
             //appBuilder.ConfigureBuiltInExceptionHandler();
             appBuilder.ConfigureBuiltInExceptionHandler(loggerFactory);
-            
+
             //Exception Handling by Custom Exception Handler Middle-ware
             //appBuilder.ConfigureCustomExceptionHandler();
 
