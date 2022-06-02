@@ -35,7 +35,6 @@
     <Folder Include="Controllers\v2\" />
     <Folder Include="GraphQL\Mutations\" />
     <Folder Include="GraphQL\Types\" />
-    <Folder Include="GraphQL\Queries\" />
   </ItemGroup>
 
 </Project>
