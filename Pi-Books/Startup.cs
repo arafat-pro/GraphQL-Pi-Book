@@ -19,6 +19,8 @@ using Pi_Books.Data;
 using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
+using Pi_Books.GraphQL;
+using Pi_Books.GraphQL.Queries;
 
 namespace Pi_Books
 {
@@ -37,6 +39,7 @@ namespace Pi_Books
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -50,8 +53,12 @@ namespace Pi_Books
             services.AddTransient<PublishersService>();
             services.AddTransient<LogsService>();
 
+            services.AddScoped<BookQuery>();
+            services.AddScoped<AppSchema>();
+
             //GraphQL
-            services.AddGraphQL().AddSystemTextJson(); 
+            services.AddGraphQL().AddSystemTextJson();
+
 
             services.AddApiVersioning(config =>
             {
@@ -134,7 +141,7 @@ namespace Pi_Books
             appBuilder.UseHttpsRedirection();
 
             //GraphQL
-            //appBuilder.UseGraphQL<SchemaClass>();
+            appBuilder.UseGraphQL<AppSchema>();
             appBuilder.UseGraphQLGraphiQL("/ui/graphql");
 
             appBuilder.UseRouting();
