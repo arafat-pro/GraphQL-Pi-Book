@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using GraphQL.Server;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -48,6 +49,9 @@ namespace Pi_Books
             services.AddTransient<AuthorsService>();
             services.AddTransient<PublishersService>();
             services.AddTransient<LogsService>();
+
+            //GraphQL
+            services.AddGraphQL().AddSystemTextJson(); 
 
             services.AddApiVersioning(config =>
             {
@@ -128,6 +132,10 @@ namespace Pi_Books
             }
 
             appBuilder.UseHttpsRedirection();
+
+            //GraphQL
+            //appBuilder.UseGraphQL<SchemaClass>();
+            appBuilder.UseGraphQLGraphiQL("/ui/graphql");
 
             appBuilder.UseRouting();
 
