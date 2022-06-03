@@ -1,0 +1,17 @@
+﻿using System.Linq;
+using HotChocolate;
+using HotChocolate.Data;
+using Pi_Books.Data;
+using Pi_Books.Data.Models;
+
+namespace Pi_Books.GraphQL.Queries
+{
+    public class PublisherQuery
+    {
+        [UseDbContext(typeof(AppDbGraphQLContext))]
+        public IQueryable<Publisher> GetPublisher([ScopedService] AppDbGraphQLContext context)
+        {
+            return context.Publishers;
+        }
+    }
+}
