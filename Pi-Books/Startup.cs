@@ -19,6 +19,7 @@ using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
 using Pi_Books.GraphQL.Queries;
+using GraphQL.Server.Ui.Voyager;
 
 namespace Pi_Books
 {
@@ -152,7 +153,14 @@ namespace Pi_Books
             {
                 endpoints.MapControllers();
                 endpoints.MapGraphQL();
+                //Below was appeared in the comment section of the source video but was not been required for my case
+                //endpoints.MapGraphQLVoyager("/graphql-voyager");
             });
+
+            appBuilder.UseGraphQLVoyager(new VoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql",
+            }, "/graphql-voyager");
 
             AppDbInitializer.InitialDbSeed(appBuilder);
 
