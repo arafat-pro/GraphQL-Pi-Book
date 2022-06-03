@@ -49,8 +49,8 @@ namespace Pi_Books
             services.AddPooledDbContextFactory<AppDbGraphQLContext>(options => options.UseSqlServer(ConnectionString));
             services
                 .AddGraphQLServer()
-                .AddQueryType<PublisherQuery>();
-                //.AddQueryType<BookQuery>();
+                .AddQueryType<Query>()
+                .AddProjections();
 
             //Configure the Services
             services.AddTransient<BooksService>();

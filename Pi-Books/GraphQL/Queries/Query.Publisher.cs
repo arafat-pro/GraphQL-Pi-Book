@@ -6,9 +6,10 @@ using Pi_Books.Data.Models;
 
 namespace Pi_Books.GraphQL.Queries
 {
-    public class PublisherQuery
+    public partial class Query
     {
         [UseDbContext(typeof(AppDbGraphQLContext))]
+        [UseProjection]
         public IQueryable<Publisher> GetPublisher([ScopedService] AppDbGraphQLContext context)
         {
             return context.Publishers;
