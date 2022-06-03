@@ -47,7 +47,7 @@ namespace Pi_Books
             //GrapgQL
             services
                 .AddGraphQLServer()
-                .AddQueryType<Query>();
+                .AddQueryType<BookQuery>();
 
             //Configure the Services
             services.AddTransient<BooksService>();

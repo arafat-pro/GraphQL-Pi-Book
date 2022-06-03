@@ -5,7 +5,7 @@ using Pi_Books.Data.Models;
 
 namespace Pi_Books.GraphQL.Queries
 {
-    public class Query
+    public class BookQuery
     {
         public IQueryable<Book> GetBook([Service] AppDbContext context)
         {
