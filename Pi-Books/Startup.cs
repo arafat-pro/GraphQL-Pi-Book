@@ -18,6 +18,7 @@ using Pi_Books.Data;
 using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
+using Pi_Books.GraphQL.Queries;
 
 namespace Pi_Books
 {
@@ -42,6 +43,11 @@ namespace Pi_Books
 
             //Configure DbContext with SQL
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
+
+            //GrapgQL
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>();
 
             //Configure the Services
             services.AddTransient<BooksService>();
@@ -145,6 +151,7 @@ namespace Pi_Books
             appBuilder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
             });
 
             AppDbInitializer.InitialDbSeed(appBuilder);
