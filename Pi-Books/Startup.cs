@@ -20,6 +20,7 @@ using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
 using Pi_Books.GraphQL.Queries;
 using GraphQL.Server.Ui.Voyager;
+using Pi_Books.GraphQL.Types;
 
 namespace Pi_Books
 {
@@ -50,7 +51,9 @@ namespace Pi_Books
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
-                .AddProjections();
+                .AddType<PublisherType>()
+                .AddType<BookType>();
+                //.AddProjections();
 
             //Configure the Services
             services.AddTransient<BooksService>();

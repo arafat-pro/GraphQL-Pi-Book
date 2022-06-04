@@ -8,8 +8,7 @@ namespace Pi_Books.GraphQL.Queries
 {
     public partial class Query
     {
-        [UseDbContext(typeof(AppDbGraphQLContext))]
-        [UseProjection]
+        [UseDbContext(typeof(AppDbGraphQLContext))]        
         public IQueryable<Publisher> GetPublisher([ScopedService] AppDbGraphQLContext context)
         {
             return context.Publishers;

@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
-using HotChocolate;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pi_Books.Data.Models
 {
-    [GraphQLDescription("Represents a business entity for who commercially publishes Books.")]
     public class Publisher
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public int? TaxIdentificationNo { get; set; }
+
         //Navigation Properties
+        //public int? BookId { get; set; }
         public List<Book> Books { get; set; }
     }
 }
