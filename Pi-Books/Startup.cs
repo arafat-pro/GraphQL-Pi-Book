@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using GraphQL.Server.Ui.Voyager;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +20,6 @@ using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
 using Pi_Books.GraphQL.Queries;
-using GraphQL.Server.Ui.Voyager;
 using Pi_Books.GraphQL.Types;
 
 namespace Pi_Books
@@ -52,8 +52,10 @@ namespace Pi_Books
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddType<PublisherType>()
-                .AddType<BookType>();
-                //.AddProjections();
+                .AddType<BookType>()
+                .AddFiltering()
+                .AddSorting();
+            //.AddProjections();
 
             //Configure the Services
             services.AddTransient<BooksService>();
