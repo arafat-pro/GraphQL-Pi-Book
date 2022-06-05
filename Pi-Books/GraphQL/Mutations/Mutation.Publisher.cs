@@ -3,6 +3,8 @@ using HotChocolate;
 using HotChocolate.Data;
 using Pi_Books.Data;
 using Pi_Books.Data.Models;
+using Pi_Books.GraphQL.Mutations.Inputs;
+using Pi_Books.GraphQL.Mutations.Payloads;
 
 namespace Pi_Books.GraphQL.Mutations
 {
