@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using GraphQL.Server.Ui.Voyager;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +19,10 @@ using Pi_Books.Data;
 using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
+using Pi_Books.GraphQL;
+using Pi_Books.GraphQL.Mutations;
+using Pi_Books.GraphQL.Queries;
+using Pi_Books.GraphQL.Types;
 
 namespace Pi_Books
 {
@@ -42,6 +47,20 @@ namespace Pi_Books
 
             //Configure DbContext with SQL
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
+
+            //GraphQL
+            services.AddPooledDbContextFactory<AppDbGraphQLContext>(options => options.UseSqlServer(ConnectionString));
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .AddSubscriptionType<Subscription>()
+                .AddType<PublisherType>()
+                .AddType<BookType>()
+                .AddFiltering()
+                .AddSorting()
+                .AddInMemorySubscriptions();
+            //.AddProjections();
 
             //Configure the Services
             services.AddTransient<BooksService>();
@@ -127,6 +146,8 @@ namespace Pi_Books
                 appBuilder.UseHealthChecksUI();
             }
 
+            appBuilder.UseWebSockets();
+
             appBuilder.UseHttpsRedirection();
 
             appBuilder.UseRouting();
@@ -145,7 +166,15 @@ namespace Pi_Books
             appBuilder.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
+                //Below was appeared in the comment section of the source video but was not been required for my case
+                //endpoints.MapGraphQLVoyager("/graphql-voyager");
             });
+
+            appBuilder.UseGraphQLVoyager(new VoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql",
+            }, "/graphql-voyager");
 
             AppDbInitializer.InitialDbSeed(appBuilder);
 

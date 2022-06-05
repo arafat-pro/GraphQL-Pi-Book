@@ -13,11 +13,17 @@
     <PackageReference Include="graphiql" Version="2.0.0" />
     <PackageReference Include="GraphQL" Version="5.3.0" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.2.1" />
-    <PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="6.1.0" />
+    <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="6.1.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.0-preview.19" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.0.0-preview.19" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-preview.4.22251.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.0-preview.4.22251.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.4.22229.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.4.22229.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0-preview.4.22229.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0-preview.4.22229.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0-preview.4.22229.2">
@@ -33,9 +39,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\v2\" />
-    <Folder Include="GraphQL\Mutations\" />
-    <Folder Include="GraphQL\Types\" />
-    <Folder Include="GraphQL\Queries\" />
   </ItemGroup>
 
 </Project>
