@@ -19,6 +19,7 @@ using Pi_Books.Data;
 using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
+using Pi_Books.GraphQL;
 using Pi_Books.GraphQL.Mutations;
 using Pi_Books.GraphQL.Queries;
 using Pi_Books.GraphQL.Types;
@@ -53,10 +54,12 @@ namespace Pi_Books
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
                 .AddMutationType<Mutation>()
+                .AddSubscriptionType<Subscription>()
                 .AddType<PublisherType>()
                 .AddType<BookType>()
                 .AddFiltering()
-                .AddSorting();
+                .AddSorting()
+                .AddInMemorySubscriptions();
             //.AddProjections();
 
             //Configure the Services
@@ -142,6 +145,8 @@ namespace Pi_Books
                 });
                 appBuilder.UseHealthChecksUI();
             }
+
+            appBuilder.UseWebSockets();
 
             appBuilder.UseHttpsRedirection();
 
