@@ -19,6 +19,7 @@ using Pi_Books.Data;
 using Pi_Books.Data.Models;
 using Pi_Books.Data.Services;
 using Pi_Books.Exceptions;
+using Pi_Books.GraphQL.Mutations;
 using Pi_Books.GraphQL.Queries;
 using Pi_Books.GraphQL.Types;
 
@@ -51,6 +52,7 @@ namespace Pi_Books
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
                 .AddType<PublisherType>()
                 .AddType<BookType>()
                 .AddFiltering()
