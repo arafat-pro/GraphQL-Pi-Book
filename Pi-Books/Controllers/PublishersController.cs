@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.Extensions.Logging;
 using Pi_Books.Data.Services;
 using Pi_Books.Data.ViewModels;
@@ -21,7 +22,7 @@ namespace Pi_Books.Controllers
             this.publishersService = publishersService;
             this.logger = logger;
         }
-
+        [EnableQuery]
         [HttpGet("all")]
         public IActionResult GetAllPublishers(string sortBy, string searchText, int pageNumber)
         {
