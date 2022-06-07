@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using Pi_Books.Data;
 using Pi_Books.Data.Models;
@@ -46,10 +48,11 @@ namespace Pi_Books
         {
             services.AddControllers()
                 .AddOData(option=>option
-                .Select()
-                .Filter()
-                .OrderBy()
-                .Expand()
+                .EnableQueryFeatures() //For All Functionality in case of being the API a private/internal.
+                .AddRouteComponents("odata", GetEdmModel())
+                //.Filter()
+                //.OrderBy()
+                //.Expand()
                 );
 
             //Configure DbContext with SQL
@@ -132,6 +135,13 @@ namespace Pi_Books
             services.AddHealthChecks()
                 .AddSqlServer(appBuilder.Configuration.GetConnectionString("HealthCheckConnectionString"));
             services.AddHealthChecksUI().AddInMemoryStorage();
+        }
+
+        public static IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Publisher>("PublishersOData");
+            return builder.GetEdmModel();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
